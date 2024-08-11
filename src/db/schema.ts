@@ -8,7 +8,7 @@ import {
   } from "drizzle-orm/pg-core"
   import postgres from "postgres"
   import { drizzle } from "drizzle-orm/postgres-js"
-  import type { AdapterAccountType } from "next-auth/adapters"
+  // import type { AdapterAccountType } from "next-auth/adapters"
 
 
 export const testing=pgTable('testing',{
@@ -27,10 +27,9 @@ export const testing=pgTable('testing',{
     id: text("id")
       .primaryKey()
       .$defaultFn(() => crypto.randomUUID()),
-    name: text("name"),
+    username: text("username"),
     email: text("email").unique(),
-    emailVerified: timestamp("emailVerified", { mode: "date" }),
-    image: text("image"),
+    password:text("password")
   })
    
   export const accounts = pgTable(
@@ -39,7 +38,7 @@ export const testing=pgTable('testing',{
       userId: text("userId")
         .notNull()
         .references(() => users.id, { onDelete: "cascade" }),
-      type: text("type").$type<AdapterAccountType>().notNull(),
+      type: text("type").notNull(),
       provider: text("provider").notNull(),
       providerAccountId: text("providerAccountId").notNull(),
       refresh_token: text("refresh_token"),
@@ -99,3 +98,4 @@ export const testing=pgTable('testing',{
       }),
     })
   )
+  export type UserSchema = typeof users.$inferSelect;
