@@ -5,9 +5,11 @@ import {
     text,
     primaryKey,
     integer,
+    uuid,
   } from "drizzle-orm/pg-core"
   import postgres from "postgres"
   import { drizzle } from "drizzle-orm/postgres-js"
+import { sql } from "drizzle-orm"
   // import type { AdapterAccountType } from "next-auth/adapters"
 
 
@@ -98,4 +100,17 @@ export const testing=pgTable('testing',{
       }),
     })
   )
+  export const room = pgTable("room", {
+    id: uuid("id")
+    .default(sql`gen_random_uuid()`)
+    .notNull()
+    .primaryKey(),
+    userId: text("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
+    name: text("name").notNull(),
+    description: text("description").notNull(),
+    tags: text("tags"),
+    githubRepo:text("githubRepo")
+  })
+  
+  export type Room = typeof room.$inferSelect;
   export type UserSchema = typeof users.$inferSelect;

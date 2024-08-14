@@ -79,10 +79,9 @@ export default function SignUpForm() {
     } catch (error) {
       console.error('Error during sign-up:', error);
       toast({
-        title: 'Sign Up Failed',
-        description: error,
-        variant: 'destructive',
-      });
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+      })
 
       setIsSubmitting(false);
     }

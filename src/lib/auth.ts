@@ -1,10 +1,12 @@
-import { NextAuthOptions } from 'next-auth';
+import {getServerSession,NextAuthOptions} from 'next-auth'
+import { DrizzleAdapter } from "@auth/drizzle-adapter"
 import CredentialsProvider from 'next-auth/providers/credentials';
 import bcrypt from 'bcryptjs';
 import db from '@/db/index';
 // import UserModel from '@/model/User';
-
+import {Adapter} from 'next-auth/adapters'
 export const authOptions: NextAuthOptions = {
+  adapter: DrizzleAdapter(db) as Adapter ,
   providers: [
     CredentialsProvider({
       id: 'credentials',
@@ -24,7 +26,9 @@ export const authOptions: NextAuthOptions = {
           if (!user) {
             throw new Error('No user found with this email');
           }
+            
             console.log(user)
+            
             return user;
           
           
@@ -48,6 +52,7 @@ export const authOptions: NextAuthOptions = {
         session.user.id = token.id;
         session.user.username = token.username;
       }
+      
       return session;
     },
   },
@@ -59,3 +64,7 @@ export const authOptions: NextAuthOptions = {
     signIn: '/signin',
   },
 };
+
+export function getSession(){
+   return getServerSession(authOptions)
+}
