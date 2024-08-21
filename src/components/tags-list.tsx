@@ -1,7 +1,9 @@
 import { Badge } from "./ui/badge"
 
-export function splitTags(tags:string){
+export function splitTags(tags:string | undefined){
+    if(!tags) return []
     return tags.split(',').map(tag=>tag.trim())
+    
 }
 
 export function Tagslist({tags}:{tags:string[]}){

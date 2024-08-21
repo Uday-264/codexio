@@ -14,7 +14,7 @@ export async function RoomPage(props:{
     if(!room){
         return <div>no room found with this room id</div>
     }
-    const languages=room.tags && splitTags(room?.tags) 
+    const languages=splitTags(room.tags) 
     return(
         <div className="grid grid-cols-4 mt-7 min-h-screen  ">
             <div className="col-span-3  p-4 pr-2">
@@ -30,7 +30,7 @@ export async function RoomPage(props:{
             <GithubIcon/>
             Github project link
             </Link>}
-            <Tagslist tags={languages}/>
+            {languages && <Tagslist tags={languages}/>}
                 </div>
             </div>
         </div>
